@@ -1,0 +1,1057 @@
+/* ==========================================================================
+   Allison Kirby — shared stylesheet
+   Colors and fonts live here. Change them once and every page updates.
+   ========================================================================== */
+
+:root {
+  /* Colors (taken from the original Wix theme) */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-text: #1a1a1a;
+  --color-muted: #605e5e;
+  --color-teal: #57bbbf;          /* footer / contact band */
+  --color-teal-dark: #317f81;     /* active menu link, accents */
+  --color-teal-deep: #296569;
+  --color-aqua-pale: #bafcff;     /* tint over the mountain background */
+  --color-rule: #8fb8b9;          /* thin divider lines */
+
+  /* Fonts (free look-alikes for Wix's Lulo Clean and Avenir Light) */
+  --font-heading: "Montserrat", "Helvetica Neue", Arial, sans-serif;  /* wide, bold, all caps */
+  --font-body: "Nunito Sans", "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Aboreto", Georgia, serif;                          /* big name on Home */
+
+  /* Layout */
+  --header-height: 72px;
+  --content-width: 1180px;
+  --gutter: 20px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --header-height: 93px;
+    --gutter: 48px;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--color-text);
+  background-color: #cdeff0;
+}
+
+/* Misty mountains fixed behind every page, tinted aqua like the original.
+   A fixed layer (rather than background-attachment: fixed) also works on iPhones. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(186, 252, 255, 0.55), rgba(186, 252, 255, 0.55)),
+    url("../images/background-misty-mountains.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0 0 1.2em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+  color: var(--color-black);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.skip-link:focus {
+  left: 8px;
+}
+
+/* ---------- Header and navigation ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-white);
+  height: var(--header-height);
+}
+
+.site-header__inner {
+  max-width: var(--content-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  text-decoration: none;
+  color: var(--color-black);
+  line-height: 1.3;
+}
+
+.brand__name {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.brand__school {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  margin-left: 0.3em;
+}
+
+/* Mobile menu: a checkbox toggles the list open, so no JavaScript is needed */
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-toggle-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.nav-toggle-label span {
+  display: block;
+  height: 2px;
+  background: var(--color-black);
+}
+
+.nav-toggle:focus-visible + .nav-toggle-label {
+  outline: 2px solid var(--color-teal-dark);
+}
+
+.site-nav {
+  display: none;
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  background: var(--color-white);
+  border-top: 1px solid #eee;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.nav-toggle:checked ~ .site-nav {
+  display: block;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.site-nav a {
+  display: block;
+  padding: 10px var(--gutter);
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--color-black);
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: var(--color-teal-dark);
+}
+
+.site-nav .submenu a {
+  padding-left: calc(var(--gutter) + 20px);
+  font-size: 15px;
+}
+
+@media (min-width: 900px) {
+  .nav-toggle-label {
+    display: none;
+  }
+
+  .site-nav {
+    display: block;
+    position: static;
+    border: 0;
+    box-shadow: none;
+    background: none;
+  }
+
+  .site-nav > ul {
+    display: flex;
+    gap: 6px;
+    padding: 0;
+  }
+
+  .site-nav li {
+    position: relative;
+  }
+
+  .site-nav a {
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+
+  /* Digital Design drops down under Projects on hover */
+  .site-nav .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 170px;
+    padding: 6px 0;
+    background: var(--color-white);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .site-nav li:hover > .submenu,
+  .site-nav li:focus-within > .submenu {
+    display: block;
+  }
+
+  .site-nav .submenu a {
+    padding: 8px 16px;
+  }
+}
+
+/* ---------- Shared building blocks ---------- */
+
+.panel {
+  background: var(--color-white);
+}
+
+.container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section-title {
+  font-size: clamp(28px, 6vw, 42px);
+}
+
+.button {
+  display: inline-block;
+  padding: 16px 36px;
+  background: var(--color-white);
+  color: var(--color-black);
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.button:hover {
+  background: var(--color-teal-dark);
+  color: var(--color-white);
+}
+
+.button-row {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.banner-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Home ---------- */
+
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px var(--gutter);
+  background: url("../images/home-hero-usd-campus.jpg") center / cover no-repeat;
+  color: var(--color-white);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.hero > * {
+  position: relative;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 8.6vw, 110px);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  color: var(--color-white);
+  margin: 0 0 0.3em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+}
+
+.hero__tagline {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.8vw, 36px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 1em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: calc(100vh - var(--header-height));
+  }
+}
+
+.about {
+  display: grid;
+}
+
+.about__text {
+  padding: 56px var(--gutter);
+}
+
+.about__text .section-title {
+  margin-bottom: 1em;
+}
+
+.about__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: 1fr 1fr;
+    margin-top: 40px; /* lets a strip of the mountains show, like the original */
+  }
+
+  .about__text {
+    padding: 64px 9% 64px max(var(--gutter), calc((100vw - var(--content-width)) / 2 + var(--gutter)));
+  }
+
+  .about__text p {
+    max-width: 30em;
+  }
+}
+
+/* ---------- Education ---------- */
+
+.education {
+  max-width: 1230px;
+  margin: 0 auto;
+  padding: 0 0 0;
+}
+
+@media (min-width: 900px) {
+  .education {
+    padding: 0 24px;
+    margin-top: 12px;
+  }
+}
+
+.education .banner-image {
+  height: 180px;
+}
+
+@media (min-width: 900px) {
+  .education .banner-image {
+    height: 225px;
+  }
+}
+
+.education__body {
+  padding: 48px var(--gutter) 24px;
+}
+
+@media (min-width: 900px) {
+  .education__body {
+    padding: 64px 9% 40px;
+  }
+}
+
+.edu-row {
+  display: grid;
+  gap: 8px 48px;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.edu-row__school {
+  font-weight: 400;
+}
+
+.edu-row__school p {
+  margin: 0 0 0.9em;
+}
+
+.edu-row ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.edu-row ul ul {
+  list-style: circle;
+}
+
+@media (min-width: 700px) {
+  .edu-row {
+    grid-template-columns: minmax(200px, 1fr) 2.2fr;
+  }
+}
+
+/* ---------- Experience (timeline) ---------- */
+
+.experience .banner-image {
+  height: 160px;
+}
+
+@media (min-width: 900px) {
+  .experience .banner-image {
+    height: 200px;
+  }
+}
+
+.experience__heading {
+  border-top: 1px solid #555;
+  border-bottom: 1px solid #555;
+  padding: 36px 0 26px;
+}
+
+.experience__heading .section-title {
+  margin: 0;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0 auto;
+  padding: 40px var(--gutter) 64px;
+  max-width: var(--content-width);
+}
+
+.job {
+  position: relative;
+  padding: 0 0 40px 28px;
+  border-left: 1px solid #333;
+  font-size: 15px;
+}
+
+.job::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-black);
+}
+
+.job__title {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+  margin: 0 0 0.8em;
+}
+
+.job__dates {
+  display: block;
+  margin-top: 0.8em;
+}
+
+.job__details p {
+  margin-bottom: 0.4em;
+}
+
+.job__details ul {
+  margin: 0;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+
+@media (min-width: 900px) {
+  .timeline {
+    padding: 56px 9% 72px;
+  }
+
+  /* Title on the left, line and dot in the middle, details on the right */
+  .job {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-left: 0;
+    padding: 0 0 56px;
+  }
+
+  .job::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 74px);
+    border-left: 1px solid #333;
+  }
+
+  .job:last-child::after {
+    bottom: 40px;
+  }
+
+  .job::before {
+    left: calc(50% - 78px);
+    top: 46px;
+  }
+
+  .job__title {
+    padding-top: 32px;
+    padding-right: 120px;
+  }
+
+  .job__details {
+    margin-left: -30px;
+  }
+}
+
+/* ---------- Projects ---------- */
+
+.projects-banner {
+  position: relative;
+  padding: 120px var(--gutter) 0;
+  background: url("../images/banner-teal-waves.jpg") center / cover no-repeat;
+}
+
+.projects-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(220, 245, 240, 0.35);
+}
+
+.intro-card {
+  position: relative;
+  max-width: 990px;
+  margin: 0 auto;
+  background: var(--color-white);
+  padding: 48px var(--gutter) 24px;
+}
+
+@media (min-width: 900px) {
+  .projects-banner {
+    padding-top: 100px;
+  }
+
+  .intro-card {
+    padding: 64px 13% 24px;
+  }
+
+  .intro-card p {
+    max-width: 38em;
+  }
+}
+
+.project-list {
+  padding: 24px 0 48px;
+}
+
+.project {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+  padding: 40px 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+.project h2 {
+  font-size: clamp(20px, 3.2vw, 26px);
+  margin-bottom: 0.7em;
+}
+
+.project__media img,
+.project__media video {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .project-list .container {
+    padding: 0 9%;
+  }
+
+  .project {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  /* Alternate image on the left, then on the right */
+  .project--media-right .project__media {
+    order: 2;
+  }
+}
+
+/* ---------- Digital Design ---------- */
+
+.design-page {
+  display: grid;
+  gap: 24px;
+  padding: 48px var(--gutter) 64px;
+}
+
+.design-page__intro .section-title {
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.35;
+}
+
+.design-item {
+  margin-bottom: 48px;
+}
+
+.design-item h2 {
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 20px;
+  margin-bottom: 0.4em;
+}
+
+.design-item img {
+  margin-top: 8px;
+}
+
+@media (min-width: 900px) {
+  .design-page {
+    grid-template-columns: 1fr 1.15fr;
+    gap: 56px;
+    padding: 56px 9% 72px;
+  }
+
+  .design-page__intro {
+    position: sticky;
+    top: calc(var(--header-height) + 40px);
+    align-self: start;
+  }
+}
+
+/* ---------- Blog ---------- */
+
+.blog-wrap {
+  padding: 24px 12px 48px;
+  background: url("../images/blog-teal-gradient.jpg") center / cover;
+}
+
+@media (min-width: 900px) {
+  .blog-wrap {
+    padding: 24px 48px 64px;
+  }
+}
+
+.blog-wrap__inner {
+  max-width: 1230px;
+  margin: 0 auto;
+}
+
+.blog-heading {
+  background: var(--color-white);
+  padding: 24px var(--gutter);
+  margin-bottom: 16px;
+}
+
+.blog-heading .section-title {
+  margin: 0;
+}
+
+.post-grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 700px) {
+  .post-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Cards: the cover image fills the card, text sits on top of it */
+.post-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  color: var(--color-white);
+  text-decoration: none;
+  background: var(--color-teal-deep);
+}
+
+.post-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.post-card:hover img {
+  transform: scale(1.03);
+}
+
+.post-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55));
+}
+
+.post-card__meta,
+.post-card__title {
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  right: 20px;
+}
+
+.post-card__meta {
+  top: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.post-card__title {
+  bottom: 24px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 22px);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.35;
+  color: var(--color-white);
+  margin: 0;
+}
+
+/* Single post */
+.post-nav {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px var(--gutter);
+  font-size: 14px;
+}
+
+.post-nav a {
+  text-decoration: none;
+  margin-right: 24px;
+}
+
+.post {
+  max-width: 940px;
+  margin: 0 auto 48px;
+  padding: 40px var(--gutter) 48px;
+  background: var(--color-white);
+  border: 1px solid #e6e6e6;
+}
+
+@media (min-width: 900px) {
+  .post {
+    padding: 56px 88px 64px;
+  }
+}
+
+.post__meta {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.post h1 {
+  font-size: clamp(24px, 4vw, 36px);
+  line-height: 1.3;
+  margin-bottom: 0.8em;
+}
+
+.post h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 20px;
+  margin: 1.6em 0 0.5em;
+}
+
+.post h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 17px;
+  margin: 1.4em 0 0.4em;
+}
+
+.post figure {
+  margin: 28px auto;
+  max-width: 420px;
+}
+
+.post ul {
+  padding-left: 1.2em;
+}
+
+.post__tags {
+  border-top: 1px solid #e6e6e6;
+  margin-top: 40px;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.post__tags ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post__tags li {
+  border: 1px solid #ccc;
+  padding: 2px 12px;
+}
+
+.recent-posts {
+  max-width: 940px;
+  margin: 0 auto 64px;
+  padding: 0 var(--gutter);
+}
+
+.recent-posts h2 {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.recent-posts h2 a {
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+
+.recent-posts .post-grid {
+  grid-template-columns: minmax(0, 360px);
+}
+
+/* ---------- Footer: contact form ---------- */
+
+.site-footer {
+  background: var(--color-teal);
+  padding: 56px 0 64px;
+}
+
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.contact-heading::before {
+  content: "";
+  display: block;
+  width: 26px;
+  border-top: 2px solid var(--color-black);
+  margin-bottom: 18px;
+}
+
+.contact-heading h2 {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.social-link {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+}
+
+.social-link svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--color-black);
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / -1;
+  font-size: 14px;
+}
+
+.field--half {
+  grid-column: span 1;
+}
+
+.field label {
+  margin-bottom: 4px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 15px;
+  padding: 8px 10px;
+  background: transparent;
+  border: 2px solid #1d3e40;
+  border-radius: 0;
+  color: var(--color-black);
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.form-trap {
+  display: none;
+}
+
+.contact-form button {
+  grid-column: 1 / -1;
+  justify-self: end;
+  min-width: 160px;
+  padding: 12px 32px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--color-white);
+  background: var(--color-black);
+  border: 0;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: var(--color-teal-deep);
+}
+
+.contact-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.form-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-weight: 400;
+}
+
+@media (min-width: 900px) {
+  .site-footer {
+    padding: 64px 0 72px;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 1fr 1.25fr;
+    align-items: center;
+    padding: 0 9%;
+  }
+}
+
+/* ---------- 404 ---------- */
+
+.not-found {
+  max-width: 720px;
+  margin: 64px auto;
+  padding: 56px var(--gutter);
+  background: var(--color-white);
+  text-align: center;
+}
+
+.not-found .button {
+  background: var(--color-black);
+  color: var(--color-white);
+}

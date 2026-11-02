@@ -1,0 +1,15 @@
+# Raw Wix captures and backups stay on this computer only
+source/
+backup/
+
+# Private project notes. GitHub Pages would publish .md files as web pages.
+CLAUDE.md
+DOMAIN-HANDOFF.md
+
+# Local tool settings
+.claude/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
